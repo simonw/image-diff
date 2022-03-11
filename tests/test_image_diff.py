@@ -37,12 +37,31 @@ def test_compile():
     runner = CliRunner()
     with runner.isolated_filesystem():
         open("test.json", "w").write(
-            json.dumps([[[0, 0, 0], [255, 0, 0]], [[255, 0, 0], [0, 0, 0]]])
+            json.dumps(
+                [
+                    [[0, 0, 0], [255, 0, 0], [0, 0, 0], [0, 0, 0]],
+                    [[255, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
+                    [[0, 0, 0], [0, 0, 0], [0, 0, 0], [255, 0, 0]],
+                ]
+            )
         )
         result = runner.invoke(cli, ["compile", "test.json", "-o", "out.png"])
         assert result.exit_code == 0
         png = Image.open("out.png")
-        assert list(png.getdata()) == [(0, 0, 0), (255, 0, 0), (255, 0, 0), (0, 0, 0)]
+        assert list(png.getdata()) == [
+            (0, 0, 0),
+            (255, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (255, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0),
+            (255, 0, 0),
+        ]
 
 
 def test_diff():

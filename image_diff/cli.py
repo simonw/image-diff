@@ -86,10 +86,10 @@ def compile(json_file, output):
     except AssertionError as e:
         raise click.ClickException(str(e))
     # Validation complete, load the image
-    image = Image.new("RGB", (num_rows, num_cols))
+    image = Image.new("RGB", (num_cols, num_rows))
     for i, row in enumerate(pixels):
         for j, cell in enumerate(row):
-            image.putpixel((i, j), tuple(cell))
+            image.putpixel((j, i), tuple(cell))
     _output(image, output)
 
 
