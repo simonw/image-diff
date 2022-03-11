@@ -33,7 +33,7 @@ def diff(first, second, output):
     diff = ImageChops.difference(first_img, second_img)
     if output == "-":
         buffer = io.BytesIO()
-        diff.save(buffer)
+        diff.save(buffer, "PNG")
         sys.stdout.buffer.write(buffer.getvalue())
     else:
         diff.save(output)
