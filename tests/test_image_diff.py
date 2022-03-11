@@ -73,8 +73,8 @@ def test_diff():
         png = Image.open("diff.png")
         assert list(png.getdata()) == [
             (0, 0, 0, 0),
-            (0, 0, 0, 0),
             (255, 0, 0, 0),
+            (0, 0, 0, 0),
             (0, 0, 0, 0),
         ]
 
