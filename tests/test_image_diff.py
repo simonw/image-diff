@@ -43,3 +43,29 @@ def test_compile():
         assert result.exit_code == 0
         png = Image.open("out.png")
         assert list(png.getdata()) == [(0, 0, 0), (255, 0, 0), (255, 0, 0), (0, 0, 0)]
+
+
+def test_diff():
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        # Write out two test images
+        runner.invoke(
+            cli,
+            ["compile", "-", "-o", "one.png"],
+            input=json.dumps([[[0, 0, 0], [0, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
+        )
+        runner.invoke(
+            cli,
+            ["compile", "-", "-o", "two.png"],
+            input=json.dumps([[[0, 0, 0], [255, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
+        )
+
+        result = runner.invoke(cli, ["diff", "one.png", "two.png", "-o", "diff.png"])
+        assert result.exit_code == 0, result.output
+        png = Image.open("diff.png")
+        assert list(png.getdata()) == [
+            (0, 0, 0, 0),
+            (0, 0, 0, 0),
+            (255, 0, 0, 0),
+            (0, 0, 0, 0),
+        ]
