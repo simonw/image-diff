@@ -19,6 +19,14 @@ To generate an image showing the difference between two images:
 
     image-diff first.jpg second.jpg -o diff.png
 
+## Count differing pixels
+
+To count the number of pixels that have changed, use `image-diff count`:
+
+    image-diff first.jpg second.jpg
+
+This will output a number followed by a newline.
+
 ## Compile an image
 
 The `image-diff compile` command exists mainly to make this tool easier to test.

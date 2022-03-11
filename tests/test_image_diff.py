@@ -48,18 +48,7 @@ def test_compile():
 def test_diff():
     runner = CliRunner()
     with runner.isolated_filesystem():
-        # Write out two test images
-        runner.invoke(
-            cli,
-            ["compile", "-", "-o", "one.png"],
-            input=json.dumps([[[0, 0, 0], [0, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
-        )
-        runner.invoke(
-            cli,
-            ["compile", "-", "-o", "two.png"],
-            input=json.dumps([[[0, 0, 0], [255, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
-        )
-
+        write_test_images(runner)
         result = runner.invoke(cli, ["diff", "one.png", "two.png", "-o", "diff.png"])
         assert result.exit_code == 0, result.output
         png = Image.open("diff.png")
@@ -69,3 +58,25 @@ def test_diff():
             (255, 0, 0, 0),
             (0, 0, 0, 0),
         ]
+
+
+def test_count():
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        write_test_images(runner)
+        result = runner.invoke(cli, ["count", "one.png", "two.png"])
+        assert result.exit_code == 0, result.output
+        assert result.output.strip() == "1"
+
+
+def write_test_images(runner):
+    runner.invoke(
+        cli,
+        ["compile", "-", "-o", "one.png"],
+        input=json.dumps([[[0, 0, 0], [0, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
+    )
+    runner.invoke(
+        cli,
+        ["compile", "-", "-o", "two.png"],
+        input=json.dumps([[[0, 0, 0], [255, 0, 0]], [[255, 0, 0], [0, 0, 0]]]),
+    )

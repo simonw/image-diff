@@ -92,6 +92,18 @@ def compile(json_file, output):
     _output(image, output)
 
 
+@cli.command()
+@click.argument("first", type=click.File("rb"))
+@click.argument("second", type=click.File("rb"))
+def count(first, second):
+    "Count the number of differing pixels in two images"
+    first_img, second_img = _open_images(first, second)
+    diff = ImageChops.difference(first_img, second_img)
+    diff_pixels = (p for p in diff.getdata() if p != (0, 0, 0, 0))
+    pixel_count = sum(1 for _ in diff_pixels)
+    click.echo(pixel_count)
+
+
 def _open_images(first, second):
     first_img = Image.open(first)
     second_img = Image.open(second)
