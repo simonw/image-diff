@@ -50,6 +50,7 @@ def compile(json_file, output):
     This is mainly useful as a testing utility.
 
     To produce a 3x3 black image with a red center:
+
     \b
         [
            [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
