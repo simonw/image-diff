@@ -13,11 +13,23 @@ Install this tool using `pip`:
 
     $ pip install image-diff
 
-## Usage
+## Image diff
 
 To generate an image showing the difference between two images:
 
     image-diff first.jpg second.jpg -o diff.png
+
+## Compile an image
+
+The `image-diff compile` command exists mainly to make this tool easier to test.
+
+It can be used to compile an image from a JSON definition - for example:
+
+    echo '[
+        [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+        [[0, 0, 0], [255, 0, 0], [0, 0, 0]],
+        [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    ]' | image-diff compile - -o one-pixel.png
 
 ## Development
 
