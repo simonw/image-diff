@@ -39,6 +39,10 @@ It can be used to compile an image from a JSON definition - for example:
         [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     ]' | image-diff compile - -o one-pixel.png
 
+## Similar projects
+
+- [pixelmatch](https://github.com/mapbox/pixelmatch) by Mapbox is a JavaScript library with an accompanying CLI tool.
+
 ## Development
 
 To contribute to this tool, first checkout the code. Then create a new virtual environment:
