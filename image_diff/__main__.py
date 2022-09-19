@@ -1,3 +1,3 @@
-from image_diff.cli import cli
+from .cli import cli
 
 cli()
